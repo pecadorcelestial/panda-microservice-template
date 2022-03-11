@@ -1,0 +1,192 @@
+# before_script:
+  # Nothing to do here at the moment.
+
+stages:
+  - build
+  - mongo
+  - test
+  - stop_processes
+  - deploy
+  - save_instances
+  - validate_services
+
+# Cache
+cache:
+  paths:
+    - node_modules/
+
+# Building
+install_dependencies:
+  tags:
+    - node
+    - microservices
+  stage: build
+  script:
+    - npm install
+  artifacts:
+    paths:
+      - node_modules/
+
+# Mongo processes
+mongo:
+  tags:
+    - node
+    - microservices
+  stage: mongo
+  script:
+    - mongo -u $MONGO_ADMIN_USER -p $MONGO_ADMIN_PASS --port $MONGO_DB_PORT --host $MONGO_HOST --authenticationDatabase $MONGO_ADMIN_DB --eval "db.getSiblingDB('$MONGO_ADMIN_DB').createUser({user:'$API_MONGO_USER',pwd:'$API_MONGO_PASS',roles:[]})" || echo "Continue (user might already exists)..."
+    - mongo -u $MONGO_ADMIN_USER -p $MONGO_ADMIN_PASS --port $MONGO_DB_PORT --host $MONGO_HOST --authenticationDatabase $MONGO_ADMIN_DB --eval "db.getSiblingDB('$MONGO_ADMIN_DB').grantRolesToUser('$API_MONGO_USER', [{role:'dbOwner',db:'$API_NAME_ENG-dev-db'},{role:'dbOwner',db:'$API_NAME_ENG-qa-db'},{role:'dbOwner',db:'$API_NAME_ENG-staging-db'},{role:'dbOwner',db:'$API_NAME_ENG-db'}])" || echo "Continue (Roles already added)..."
+  only:
+    - master
+
+# Testing
+test:
+  tags:
+    - node
+    - microservices
+  stage: test
+  script:
+    - npm run test
+
+# Stop processes
+stop_processes:
+  tags:
+    - node
+    - microservices
+  stage: stop_processes
+  script:
+    - pm2 delete $API_NAME.dev || echo "Continue..."
+    - pm2 delete $API_NAME.qa || echo "Continue..."
+    - pm2 delete $API_NAME.staging || echo "Continue..."
+    - pm2 delete $API_NAME.production || echo "Continue..."
+  only:
+    - master
+
+# Validate Services
+validate_services:
+  tags:
+    - node
+    - microservices
+  stage: validate_services
+  script:
+    - curl http://$IP_ADDRESS:$PORT_QA/ || echo "Failed to reach QA service...; exit 1"
+    - curl http://$IP_ADDRESS:$PORT_STAGING/ || echo "Failed to reach STAGING service...; exit 1"
+    - curl http://$IP_ADDRESS:$PORT_PRODUCTION/ || echo "Failed to reach PRODUCTION service...; exit 1"
+    - curl http://$IP_ADDRESS:$PORT_DEV/ || echo "Failed to reach DEVELOPMENT service...; exit 1"
+  only:
+    - master
+
+# Save PM2 instances.
+save_instances:
+  tags:
+    - node
+    - microservices
+  stage: save_instances
+  script:
+    - sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u gitlab-runner --hp /home/gitlab-runner
+    - pm2 save
+  only:
+    - master
+
+# Deploy to Development Environment
+deploy_development:
+  tags:
+    - node
+    - microservices
+  stage: deploy
+  environment:
+    name: development
+  script:
+    - echo "Deploying to development stage..."
+    - rm -f -r $SERVICES_PATH/$ENVIRONMENT_DEV/$API_NAME
+    - mkdir -p $SERVICES_PATH/$ENVIRONMENT_DEV/$API_NAME
+    - cp -r * $SERVICES_PATH/$ENVIRONMENT_DEV/$API_NAME/
+    - cd $SERVICES_PATH/$ENVIRONMENT_DEV/$API_NAME/
+    - sed -i "s/%API_NAME%/$API_NAME/g" ecosystem.config.json
+    - sed -i "s/%INSTANCES%/$INSTANCES/g" ecosystem.config.json
+    - sed -i "s/%ENV%/$ENV_DEV/g" ecosystem.config.json
+    - sed -i "s/%ENVIRONMENT%/$ENVIRONMENT_DEV/g" ecosystem.config.json
+    - sed -i "s/%PORT%/$PORT_DEV/g" ecosystem.config.json
+    - sed -i "s/%SCRIPT%/$SCRIPT_DEV/g" ecosystem.config.json
+    - sed -i "s/%ARGS%/$ARGS_DEV/g" ecosystem.config.json
+    - pm2 start ecosystem.config.json
+  only:
+    - master
+
+# Deploy to QA Environment
+deploy_qa:
+  tags:
+    - node
+    - microservices
+  stage: deploy
+  environment:
+    name: qa
+  script:
+    - echo "Deploying to QA stage..."
+    - rm -f -r $SERVICES_PATH/$ENVIRONMENT_QA/$API_NAME
+    - mkdir -p $SERVICES_PATH/$ENVIRONMENT_QA/$API_NAME
+    - cp -r * $SERVICES_PATH/$ENVIRONMENT_QA/$API_NAME/
+    - cd $SERVICES_PATH/$ENVIRONMENT_QA/$API_NAME/
+    - sed -i "s/%API_NAME%/$API_NAME/g" ecosystem.config.json
+    - sed -i "s/%INSTANCES%/$INSTANCES/g" ecosystem.config.json
+    - sed -i "s/%ENV%/$ENV_QA/g" ecosystem.config.json
+    - sed -i "s/%ENVIRONMENT%/$ENVIRONMENT_QA/g" ecosystem.config.json
+    - sed -i "s/%PORT%/$PORT_QA/g" ecosystem.config.json
+    - sed -i "s/%SCRIPT%/$SCRIPT_QA/g" ecosystem.config.json
+    - sed -i "s/%ARGS%/$ARGS_QA/g" ecosystem.config.json
+    - pm2 start ecosystem.config.json
+  when: manual
+  only:
+    - master
+
+# Deploy to Staging Environment
+deploy_staging:
+  tags:
+    - node
+    - microservices
+  stage: deploy
+  environment:
+    name: staging
+  script:
+    - echo "Deploying to staging stage..."
+    - rm -f -r $SERVICES_PATH/$ENVIRONMENT_STAGING/$API_NAME
+    - mkdir -p $SERVICES_PATH/$ENVIRONMENT_STAGING/$API_NAME
+    - cp -r * $SERVICES_PATH/$ENVIRONMENT_STAGING/$API_NAME/
+    - cd $SERVICES_PATH/$ENVIRONMENT_STAGING/$API_NAME/
+    - sed -i "s/%API_NAME%/$API_NAME/g" ecosystem.config.json
+    - sed -i "s/%INSTANCES%/$INSTANCES/g" ecosystem.config.json
+    - sed -i "s/%ENV%/$ENV_STAGING/g" ecosystem.config.json
+    - sed -i "s/%ENVIRONMENT%/$ENVIRONMENT_STAGING/g" ecosystem.config.json
+    - sed -i "s/%PORT%/$PORT_STAGING/g" ecosystem.config.json
+    - sed -i "s/%SCRIPT%/$SCRIPT_STAGING/g" ecosystem.config.json
+    - sed -i "s/%ARGS%/$ARGS_STAGING/g" ecosystem.config.json
+    - npm run start:staging
+  when: manual
+  only:
+    - master
+
+# Deploy to Production Environment
+deploy_production:
+  tags:
+    - node
+    - microservices
+  stage: deploy
+  script:
+    - echo "Deploying to production server..."
+    - rm -f -r $SERVICES_PATH/$ENVIRONMENT_PRODUCTION/$API_NAME
+    - mkdir -p $SERVICES_PATH/$ENVIRONMENT_PRODUCTION/$API_NAME
+    - cp -r * $SERVICES_PATH/$ENVIRONMENT_PRODUCTION/$API_NAME/
+    - cd $SERVICES_PATH/$ENVIRONMENT_PRODUCTION/$API_NAME/
+    - sed -i "s/%API_NAME%/$API_NAME/g" ecosystem.config.json
+    - sed -i "s/%INSTANCES%/$INSTANCES/g" ecosystem.config.json
+    - sed -i "s/%ENV%/$ENV_PRODUCTION/g" ecosystem.config.json
+    - sed -i "s/%ENVIRONMENT%/$ENVIRONMENT_PRODUCTION/g" ecosystem.config.json
+    - sed -i "s/%PORT%/$PORT_PRODUCTION/g" ecosystem.config.json
+    - sed -i "s/%SCRIPT%/$SCRIPT_PRODUCTION/g" ecosystem.config.json
+    - sed -i "s/%ARGS%/$ARGS_PRODUCTION/g" ecosystem.config.json
+    - npm start
+  environment:
+    name: production
+  when: manual
+  only:
+    - master
