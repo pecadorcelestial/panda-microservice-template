@@ -1,0 +1,138 @@
+[
+	{
+		"id": 1,
+		"name": "Aeropuerto"
+	},
+	{
+		"id": 2,
+		"name": "Barrio"
+	},
+	{
+		"id": 4,
+		"name": "Campamento"
+	},
+	{
+		"id": 9,
+		"name": "Colonia"
+	},
+	{
+		"id": 10,
+		"name": "Condominio"
+	},
+	{
+		"id": 11,
+		"name": "Congregación"
+	},
+	{
+		"id": 12,
+		"name": "Conjunto habitacional"
+	},
+	{
+		"id": 15,
+		"name": "Ejido"
+	},
+	{
+		"id": 16,
+		"name": "Estación"
+	},
+	{
+		"id": 17,
+		"name": "Equipamiento"
+	},
+	{
+		"id": 18,
+		"name": "Exhacienda"
+	},
+	{
+		"id": 20,
+		"name": "Finca"
+	},
+	{
+		"id": 21,
+		"name": "Fraccionamiento"
+	},
+	{
+		"id": 22,
+		"name": "Gran usuario"
+	},
+	{
+		"id": 23,
+		"name": "Granja"
+	},
+	{
+		"id": 24,
+		"name": "Hacienda"
+	},
+	{
+		"id": 25,
+		"name": "Ingenio"
+	},
+	{
+		"id": 26,
+		"name": "Parque industrial"
+	},
+	{
+		"id": 27,
+		"name": "Poblado comunal"
+	},
+	{
+		"id": 28,
+		"name": "Pueblo"
+	},
+	{
+		"id": 29,
+		"name": "Ranchería"
+	},
+	{
+		"id": 30,
+		"name": "Residencial"
+	},
+	{
+		"id": 31,
+		"name": "Unidad habitacional"
+	},
+	{
+		"id": 32,
+		"name": "Villa"
+	},
+	{
+		"id": 33,
+		"name": "Zona comercial"
+	},
+	{
+		"id": 34,
+		"name": "Zona federal"
+	},
+	{
+		"id": 37,
+		"name": "Zona industrial"
+	},
+	{
+		"id": 38,
+		"name": "Ampliación"
+	},
+	{
+		"id": 39,
+		"name": "Club de golf"
+	},
+	{
+		"id": 40,
+		"name": "Puerto"
+	},
+	{
+		"id": 45,
+		"name": "Paraje"
+	},
+	{
+		"id": 46,
+		"name": "Zona naval"
+	},
+	{
+		"id": 47,
+		"name": "Zona militar"
+	},
+	{
+		"id": 48,
+		"name": "Rancho"
+	}
+]

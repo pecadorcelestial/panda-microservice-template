@@ -1,0 +1,162 @@
+[
+	{
+		"id": 1,
+		"name": "Aguascalientes",
+		"country": 1
+    },
+    {
+		"id": 2,
+		"name": "Baja California",
+		"country": 1
+    },
+    {
+		"id": 3,
+		"name": "Baja California Sur",
+		"country": 1
+    },
+    {
+		"id": 4,
+		"name": "Campeche",
+		"country": 1
+    },
+    {
+		"id": 5,
+		"name": "Coahuila de Zaragoza",
+		"country": 1
+    },
+    {
+		"id": 6,
+		"name": "Colima",
+		"country": 1
+    },
+    {
+		"id": 7,
+		"name": "Chiapas",
+		"country": 1
+    },
+    {
+		"id": 8,
+		"name": "Chihuahua",
+		"country": 1
+	},
+	{
+		"id": 9,
+		"name": "Ciudad de México",
+		"country": 1
+	},
+	{
+		"id": 10,
+		"name": "Durango",
+		"country": 1
+	},
+	{
+		"id": 11,
+		"name": "Guanajuato",
+		"country": 1
+	},
+	{
+		"id": 12,
+		"name": "Guerrero",
+		"country": 1
+	},
+	{
+		"id": 13,
+		"name": "Hidalgo",
+		"country": 1
+	},
+	{
+		"id": 14,
+		"name": "Jalisco",
+		"country": 1
+	},
+	{
+		"id": 15,
+		"name": "México",
+		"country": 1
+	},
+	{
+		"id": 16,
+		"name": "Michoacán de Ocampo",
+		"country": 1
+	},
+	{
+		"id": 17,
+		"name": "Morelos",
+		"country": 1
+	},
+	{
+		"id": 18,
+		"name": "Nayarit",
+		"country": 1
+	},
+	{
+		"id": 19,
+		"name": "Nuevo León",
+		"country": 1
+	},
+	{
+		"id": 20,
+		"name": "Oaxaca",
+		"country": 1
+	},
+	{
+		"id": 21,
+		"name": "Puebla",
+		"country": 1
+	},
+	{
+		"id": 22,
+		"name": "Querétaro",
+		"country": 1
+	},
+	{
+		"id": 23,
+		"name": "Quintana Roo",
+		"country": 1
+	},
+	{
+		"id": 24,
+		"name": "San Luis Potosí",
+		"country": 1
+	},
+	{
+		"id": 25,
+		"name": "Sinaloa",
+		"country": 1
+	},
+	{
+		"id": 26,
+		"name": "Sonora",
+		"country": 1
+	},
+	{
+		"id": 27,
+		"name": "Tabasco",
+		"country": 1
+	},
+	{
+		"id": 28,
+		"name": "Tamaulipas",
+		"country": 1
+	},
+	{
+		"id": 29,
+		"name": "Tlaxcala",
+		"country": 1
+	},
+	{
+		"id": 30,
+		"name": "Veracruz de Ignacio de la Llave",
+		"country": 1
+	},
+	{
+		"id": 31,
+		"name": "Yucatán",
+		"country": 1
+	},
+	{
+		"id": 32,
+		"name": "Zacatecas",
+		"country": 1
+    }
+]

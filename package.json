@@ -1,0 +1,49 @@
+{
+  "name": "addresses-api-rest",
+  "version": "1.0.3",
+  "description": "API de tipo REST para el manejo de direcciones.",
+  "main": "./dist/server.js",
+  "scripts": {
+    "preapidoc": "npm run cleardocs",
+    "apidoc": "apidoc --input src/controllers/ --file-filters \".*\\.ts$\" --output docs/",
+    "prebuild": "bash ./src/scripts/clear-dist.sh",
+    "build": "tsc",
+    "postbuild": "npm run copyfiles",
+    "cleardocs": "bash src/scripts/clear-docs.sh",
+    "copyfiles": "copyfiles --up 1 ./src/configuration/*.json ./dist",
+    "prestart": "npm run build",
+    "prestart:staging": "npm run build",
+    "start": "pm2 start ./ecosystem.config.json",
+    "start:staging": "pm2 start ./ecosystem.config.json",
+    "start:dev": "ts-node ./src/server.ts",
+    "start:qa": "ts-node ./src/server.ts",
+    "test": "exit 0"
+  },
+  "author": "Francisco Rodríguez",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "http://git.domain.mx/olimpo/servicios/direcciones.git"
+  },
+  "dependencies": {
+    "@types/express": "^4.16.0",
+    "@types/mongoose": "^5.3.15",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "mongoose": "^5.4.11"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.9",
+    "@types/supertest": "^2.0.7",
+    "assert": "^1.4.1",
+    "copyfiles": "^2.1.0",
+    "jest": "^24.1.0",
+    "js-yaml": "^3.13.1",
+    "moxios": "^0.4.0",
+    "sinon": "^7.2.0",
+    "supertest": "^3.4.2",
+    "ts-jest": "^24.0.0",
+    "ts-node": "^8.1.0",
+    "typescript": "^3.3.3333"
+  }
+}

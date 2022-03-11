@@ -1,0 +1,13 @@
+{
+    "connection": {
+        "url": "mongodb://192.168.0.62:27667",
+        "dbName": "locations-db",
+        "user": "ms-locations",
+        "pass": "M5-l0c4t10n5-0l1mpO"
+    },
+    "filters": {
+        "limit": 20,
+        "maxDistance": 1000,
+        "page": 1
+    }
+}

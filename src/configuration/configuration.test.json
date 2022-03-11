@@ -1,0 +1,10 @@
+{
+    "connection": {
+        "url": "mongodb://localhost:27017/locations-test-db"
+    },
+    "filters": {
+        "limit": 20,
+        "maxDistance": 1000,
+        "page": 1
+    }
+}

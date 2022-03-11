@@ -1,0 +1,19 @@
+{
+    "name": "API REST DIRECCIONES",
+    "version": "1.0.0",
+    "description": "API REST para administración de direcciones.",
+    "title": "API REST Dirección - Documentación.",
+    "url" : "https://gitlab.com/sistema-2.0/microservices/direcciones/docs",
+    "order": [
+      "GetAddress",
+      "GetAddresses",
+      "GetAddressesByGeoLocation",
+      "PostAddress",
+      "PutAddress",
+      "DeleteAddress"
+    ],
+    "template": {
+        "withCompare": true,
+        "withGenerator": true
+    }
+  }
